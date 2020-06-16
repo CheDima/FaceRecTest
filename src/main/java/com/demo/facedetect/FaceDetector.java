@@ -5,32 +5,27 @@ import org.opencv.imgproc.Imgproc;
 import org.opencv.objdetect.CascadeClassifier;
 import org.opencv.objdetect.Objdetect;
 
-import java.io.IOException;
+public class FaceDetector {
 
-public class FaceDetection {
-
-    private static final String classifierPath1 = "src/resources/FaceDetection/haarcascade_frontalface_alt.xml";
+    private static final String classifierPath1 = "/Users/dmitrychernyaev/IdeaProjects/FaceRecTest/src/main/java/resources/FaceDetection/haarcascade_frontalface_alt.xml";
     private final CascadeClassifier faceCascade = new CascadeClassifier();
+    private static final int MIN_FACE_SIZE = 7;
 
-    public FaceDetection() {
+    public FaceDetector() {
         faceCascade.load(classifierPath1);
     }
 
     public void detectAndDisplay(Mat frame) {
         MatOfRect faces = new MatOfRect();
         Mat grayFrame = new Mat();
-        int absoluteFaceSize = 0;
 
         Imgproc.cvtColor(frame, grayFrame, Imgproc.COLOR_BGR2GRAY);
         Imgproc.equalizeHist(grayFrame, grayFrame);
 
         int height = grayFrame.rows();
-        if (Math.round(height * 0.2f) > 0) {
-            absoluteFaceSize = Math.round(height * 0.01f);
-        }
 
         faceCascade.detectMultiScale(grayFrame, faces, 1.1, 2, Objdetect.CASCADE_SCALE_IMAGE,
-                new Size(absoluteFaceSize, absoluteFaceSize), new Size(height, height));
+                new Size(MIN_FACE_SIZE, MIN_FACE_SIZE), new Size(height, height));
 
         Rect[] facesArray = faces.toArray();
         if (facesArray.length == 1) {

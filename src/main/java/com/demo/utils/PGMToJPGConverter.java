@@ -17,11 +17,8 @@ public class PGMToJPGConverter {
     public static String csvFilePath = basePath + "\\src\\resources\\FaceRecognition\\TrainingData.txt";
 
     public static void main(String[] args) {
-        System.out.println("Loading library..");
         System.loadLibrary("libopencv_java342");
-        System.out.println("Library loaded!!");
         readCSVAndConvertPGMToJPG(csvFilePath);
-        System.out.println("Image conversion done!");
     }
 
     private static void readCSVAndConvertPGMToJPG(String csvFilePath2) {
